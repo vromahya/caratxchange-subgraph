@@ -1,0 +1,50 @@
+type Token @entity {
+  id: ID!
+  tokenId: BigInt!
+  tokenURI: String!
+  name: String
+  image: String
+  description: String
+  collection: String
+  onAuction: Boolean!
+  onDirectSale: Boolean!
+  onOrderTransit: Boolean!
+  onOrderCompleted: Boolean!
+  createdAtTimestamp: BigInt!
+  creator: User!
+  owner: User!
+  reservedPrice: BigInt
+  bids: [Bid!] @derivedFrom(field: "token")
+  auctionEndAt: BigInt
+}
+
+type User @entity {
+  id: Bytes!
+  tokens: [Token!] @derivedFrom(field: "owner")
+  created: [Token!] @derivedFrom(field: "creator")
+  bids: [Bid!] @derivedFrom(field: "bidder")
+  seller: Boolean!
+}
+
+type Bid @entity {
+  id: ID!
+  token: Token!
+  bidder: User!
+  bid: BigInt!
+}
+type _Schema_
+  @fulltext(
+    name: "tokenSearch"
+    language: en
+    algorithm: rank
+    include: [
+      {
+        entity: "Token"
+        fields: [
+          { name: "name" }
+          { name: "description" }
+          { name: "collection" }
+        ]
+      }
+    ]
+  )
