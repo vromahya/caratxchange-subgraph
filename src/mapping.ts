@@ -18,10 +18,10 @@ export function handleTransfer(event: Transfer): void {
     token.creator = event.params.to;
 
     let tokenContract = Contract.bind(event.address);
-  
-    token.tokenURI = tokenContract.tokenURI(token.tokenId); 
 
-    let metadata = ipfs.cat(token.tokenURI);
+    token.tokenURI = tokenContract.tokenURI(token.tokenId); 
+    let hash = token.tokenURI
+    let metadata = ipfs.cat(hash);
     if (metadata) {
       const value = json.fromBytes(metadata).toObject()
       if (value) {
