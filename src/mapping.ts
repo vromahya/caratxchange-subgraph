@@ -56,7 +56,8 @@ export function handleTransfer(event: Transfer): void {
   //user update or create
   let user = User.load(event.params.to)
   if (!user) {
-    user = new User(event.params.to);  
+    user = new User(event.params.to); 
+    user.seller=false; 
     user.save();
   }
 }

@@ -48,7 +48,7 @@ export function handleAuctionBid(event: AuctionBid): void {
 
     const bidderAddress = bidder.id;
 
-    let bid = new Bid(getBidId(event.params.tokenId.toString(),bidderAddress.toString()));
+    let bid = new Bid(getBidId(event.params.tokenId.toString(),bidderAddress.toHexString()));
         bid.token = token.id;
         bid.bidder = bidder.id;
         bid.bid = event.params.auction.highestBid;

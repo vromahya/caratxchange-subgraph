@@ -18,6 +18,7 @@ export function findOrCreateUser(id: Bytes): User {
 
   if (!user) {
     user = new User(id)
+    user.seller = false;
     user.save()
   }
 
