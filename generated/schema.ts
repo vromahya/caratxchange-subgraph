@@ -392,4 +392,13 @@ export class Bid extends Entity {
   set bid(value: BigInt) {
     this.set("bid", Value.fromBigInt(value));
   }
+
+  get createdAtTimeStamp(): BigInt {
+    let value = this.get("createdAtTimeStamp");
+    return value!.toBigInt();
+  }
+
+  set createdAtTimeStamp(value: BigInt) {
+    this.set("createdAtTimeStamp", Value.fromBigInt(value));
+  }
 }

@@ -32,7 +32,7 @@ export function handleAuctionEnded(event: AuctionEnded): void {
     if(!token) return;
     token.reservedPrice = event.params.auction.highestBid;
     token.onAuction = false;
-    token.save();
+    token.save();    
 }
 export function handleAuctionBid(event: AuctionBid): void {
 
@@ -52,5 +52,6 @@ export function handleAuctionBid(event: AuctionBid): void {
         bid.token = token.id;
         bid.bidder = bidder.id;
         bid.bid = event.params.auction.highestBid;
+        bid.createdAtTimeStamp = event.block.timestamp;
         bid.save();
 }

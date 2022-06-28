@@ -1,4 +1,4 @@
-// import { BigInt } from "@graphprotocol/graph-ts"
+import { BigInt } from "@graphprotocol/graph-ts"
 import {
   Contract,
   Transfer,
@@ -57,7 +57,7 @@ export function handleTransfer(event: Transfer): void {
   let user = User.load(event.params.to)
   if (!user) {
     user = new User(event.params.to); 
-    user.seller=false; 
+    user.seller=false;
     user.save();
   }
 }
