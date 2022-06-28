@@ -1,9 +1,12 @@
+import { BigInt } from "@graphprotocol/graph-ts";
 import {MarketPlace as marketplaceContract, 
         DirectSaleCreated, 
         DirectSaleDone, 
         OrderInTransit, 
         OrderCompleted } from "../generated/marketplace/MarketPlace"
 import { Token } from "../generated/schema"
+
+
 
 
 export function handleDirectSaleCreated(event: DirectSaleCreated): void {
