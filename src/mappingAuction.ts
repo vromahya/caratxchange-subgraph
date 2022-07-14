@@ -32,7 +32,17 @@ export function handleAuctionEnded(event: AuctionEnded): void {
     if(!token) return;
     token.reservedPrice = event.params.auction.highestBid;
     token.onAuction = false;
-    token.save();    
+    token.save();
+    const user = findOrCreateUser(token.creator); 
+    const userTotalSales = user.totalSales
+    if(!userTotalSales){
+    user.totalSales = event.params.auction.highestBid;
+    user.save();
+    return;
+    } else {
+    user.totalSales = event.params.auction.highestBid.plus(userTotalSales);
+    user.save();
+    }    
 }
 export function handleAuctionBid(event: AuctionBid): void {
 

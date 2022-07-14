@@ -6,6 +6,7 @@ type Token @entity {
   image: String
   description: String
   collection: String
+  type: String
   onAuction: Boolean!
   onDirectSale: Boolean!
   onOrderTransit: Boolean!
@@ -24,6 +25,7 @@ type User @entity {
   created: [Token!] @derivedFrom(field: "creator")
   bids: [Bid!] @derivedFrom(field: "bidder")
   seller: Boolean!
+  totalSales: BigInt
 }
 
 type Bid @entity {

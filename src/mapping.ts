@@ -29,7 +29,7 @@ export function handleTransfer(event: Transfer): void {
         const name = value.get('name')
         const description = value.get('description')
         const collection = value.get('collection')
-
+        const type = value.get('type')
         if (name && image && description) {
           token.name = name.toString()
           token.image = image.toString()
@@ -37,6 +37,9 @@ export function handleTransfer(event: Transfer): void {
         }
         if(collection){
           token.collection = collection.toString();
+        }
+        if(type){
+          token.type = type.toString();
         }
       }
     }

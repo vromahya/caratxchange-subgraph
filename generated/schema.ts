@@ -128,6 +128,23 @@ export class Token extends Entity {
     }
   }
 
+  get type(): string | null {
+    let value = this.get("type");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set type(value: string | null) {
+    if (!value) {
+      this.unset("type");
+    } else {
+      this.set("type", Value.fromString(<string>value));
+    }
+  }
+
   get onAuction(): boolean {
     let value = this.get("onAuction");
     return value!.toBoolean();
@@ -332,6 +349,23 @@ export class User extends Entity {
 
   set seller(value: boolean) {
     this.set("seller", Value.fromBoolean(value));
+  }
+
+  get totalSales(): BigInt | null {
+    let value = this.get("totalSales");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set totalSales(value: BigInt | null) {
+    if (!value) {
+      this.unset("totalSales");
+    } else {
+      this.set("totalSales", Value.fromBigInt(<BigInt>value));
+    }
   }
 }
 
