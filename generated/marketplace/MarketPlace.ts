@@ -72,21 +72,45 @@ export class OrderCompleted__Params {
   }
 }
 
-export class OrderInTransit extends ethereum.Event {
-  get params(): OrderInTransit__Params {
-    return new OrderInTransit__Params(this);
+export class MarketPlace__tokenIdToMarketItemMetaResultOrderStateStruct extends ethereum.Tuple {
+  get inProcess(): boolean {
+    return this[0].toBoolean();
+  }
+
+  get completed(): boolean {
+    return this[1].toBoolean();
   }
 }
 
-export class OrderInTransit__Params {
-  _event: OrderInTransit;
+export class MarketPlace__tokenIdToMarketItemMetaResult {
+  value0: Address;
+  value1: BigInt;
+  value2: boolean;
+  value3: boolean;
+  value4: MarketPlace__tokenIdToMarketItemMetaResultOrderStateStruct;
 
-  constructor(event: OrderInTransit) {
-    this._event = event;
+  constructor(
+    value0: Address,
+    value1: BigInt,
+    value2: boolean,
+    value3: boolean,
+    value4: MarketPlace__tokenIdToMarketItemMetaResultOrderStateStruct
+  ) {
+    this.value0 = value0;
+    this.value1 = value1;
+    this.value2 = value2;
+    this.value3 = value3;
+    this.value4 = value4;
   }
 
-  get tokenId(): BigInt {
-    return this._event.parameters[0].value.toBigInt();
+  toMap(): TypedMap<string, ethereum.Value> {
+    let map = new TypedMap<string, ethereum.Value>();
+    map.set("value0", ethereum.Value.fromAddress(this.value0));
+    map.set("value1", ethereum.Value.fromUnsignedBigInt(this.value1));
+    map.set("value2", ethereum.Value.fromBoolean(this.value2));
+    map.set("value3", ethereum.Value.fromBoolean(this.value3));
+    map.set("value4", ethereum.Value.fromTuple(this.value4));
+    return map;
   }
 }
 
@@ -112,6 +136,51 @@ export class MarketPlace extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  tokenIdToMarketItemMeta(
+    param0: BigInt
+  ): MarketPlace__tokenIdToMarketItemMetaResult {
+    let result = super.call(
+      "tokenIdToMarketItemMeta",
+      "tokenIdToMarketItemMeta(uint256):(address,uint256,bool,bool,(bool,bool))",
+      [ethereum.Value.fromUnsignedBigInt(param0)]
+    );
+
+    return new MarketPlace__tokenIdToMarketItemMetaResult(
+      result[0].toAddress(),
+      result[1].toBigInt(),
+      result[2].toBoolean(),
+      result[3].toBoolean(),
+      changetype<MarketPlace__tokenIdToMarketItemMetaResultOrderStateStruct>(
+        result[4].toTuple()
+      )
+    );
+  }
+
+  try_tokenIdToMarketItemMeta(
+    param0: BigInt
+  ): ethereum.CallResult<MarketPlace__tokenIdToMarketItemMetaResult> {
+    let result = super.tryCall(
+      "tokenIdToMarketItemMeta",
+      "tokenIdToMarketItemMeta(uint256):(address,uint256,bool,bool,(bool,bool))",
+      [ethereum.Value.fromUnsignedBigInt(param0)]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(
+      new MarketPlace__tokenIdToMarketItemMetaResult(
+        value[0].toAddress(),
+        value[1].toBigInt(),
+        value[2].toBoolean(),
+        value[3].toBoolean(),
+        changetype<MarketPlace__tokenIdToMarketItemMetaResultOrderStateStruct>(
+          value[4].toTuple()
+        )
+      )
+    );
   }
 }
 
@@ -349,36 +418,6 @@ export class PlaceBidCall__Outputs {
   _call: PlaceBidCall;
 
   constructor(call: PlaceBidCall) {
-    this._call = call;
-  }
-}
-
-export class SetOrderInTransitCall extends ethereum.Call {
-  get inputs(): SetOrderInTransitCall__Inputs {
-    return new SetOrderInTransitCall__Inputs(this);
-  }
-
-  get outputs(): SetOrderInTransitCall__Outputs {
-    return new SetOrderInTransitCall__Outputs(this);
-  }
-}
-
-export class SetOrderInTransitCall__Inputs {
-  _call: SetOrderInTransitCall;
-
-  constructor(call: SetOrderInTransitCall) {
-    this._call = call;
-  }
-
-  get _tokenId(): BigInt {
-    return this._call.inputValues[0].value.toBigInt();
-  }
-}
-
-export class SetOrderInTransitCall__Outputs {
-  _call: SetOrderInTransitCall;
-
-  constructor(call: SetOrderInTransitCall) {
     this._call = call;
   }
 }

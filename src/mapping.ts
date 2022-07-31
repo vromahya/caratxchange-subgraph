@@ -7,6 +7,8 @@ import {
 } from "../generated/Contract/Contract"
 import { Token, User } from "../generated/schema"
 import { ipfs, json } from '@graphprotocol/graph-ts'
+import { findOrCreateUser } from "./loadingFunction"
+
 
 export function handleTransfer(event: Transfer): void {
   let token = Token.load(event.params.tokenId.toString());
@@ -65,22 +67,19 @@ export function handleTransfer(event: Transfer): void {
   }
 }
 export function handleRoleGranted(event: RoleGranted): void {
-    let user = User.load(event.params.account);
-    if(!user){
-      user = new User(event.params.account);
-      user.seller = true
-    }
+  
+    let user = findOrCreateUser(event.params.account);
+    
     user.seller = true;
     user.save();
+    
 }
 export function handleRoleRevoked(event: RoleRevoked): void {
-    let user = User.load(event.params.account);
-    if(!user){
-      user = new User(event.params.account);
-      user.seller = false;
-    }
+    let user = findOrCreateUser(event.params.account);
+    
     user.seller = false;
-    user.save();
+    user.save();  
+    
 }
 
 

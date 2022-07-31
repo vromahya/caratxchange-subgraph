@@ -1,8 +1,7 @@
 import { BigInt } from "@graphprotocol/graph-ts";
 import {MarketPlace as marketplaceContract, 
         DirectSaleCreated, 
-        DirectSaleDone, 
-        OrderInTransit, 
+        DirectSaleDone,         
         OrderCompleted } from "../generated/marketplace/MarketPlace"
 import { Token } from "../generated/schema"
 import { findOrCreateUser } from "./loadingFunction";
@@ -21,6 +20,7 @@ export function handleDirectSaleDone(event: DirectSaleDone): void {
     let token = Token.load(event.params.tokenId.toString());
     if(!token) return;
     token.onDirectSale = false;
+    token.onOrderTransit=true;
     token.save();
     const user = findOrCreateUser(token.creator); 
     const userTotalSales = user.totalSales
@@ -34,12 +34,7 @@ export function handleDirectSaleDone(event: DirectSaleDone): void {
     user.save();
     }
 }
-export function handleOrderInTransit(event: OrderInTransit): void {
-    let token = Token.load(event.params.tokenId.toString());
-    if(!token) return;
-    token.onOrderTransit = true;
-    token.save();
-}
+
 
 export function handleOrderCompleted(event: OrderCompleted): void {
     let token = Token.load(event.params.tokenId.toString());

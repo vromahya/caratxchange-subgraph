@@ -559,6 +559,36 @@ export class CreateBidCall__Outputs {
   }
 }
 
+export class ReleaseFundsCall extends ethereum.Call {
+  get inputs(): ReleaseFundsCall__Inputs {
+    return new ReleaseFundsCall__Inputs(this);
+  }
+
+  get outputs(): ReleaseFundsCall__Outputs {
+    return new ReleaseFundsCall__Outputs(this);
+  }
+}
+
+export class ReleaseFundsCall__Inputs {
+  _call: ReleaseFundsCall;
+
+  constructor(call: ReleaseFundsCall) {
+    this._call = call;
+  }
+
+  get _tokenId(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+}
+
+export class ReleaseFundsCall__Outputs {
+  _call: ReleaseFundsCall;
+
+  constructor(call: ReleaseFundsCall) {
+    this._call = call;
+  }
+}
+
 export class SetAuctionReservePriceCall extends ethereum.Call {
   get inputs(): SetAuctionReservePriceCall__Inputs {
     return new SetAuctionReservePriceCall__Inputs(this);
